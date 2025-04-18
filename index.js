@@ -7,6 +7,8 @@ import sqlite3 from 'sqlite3';
 const db = await open({ filename: 'totalplay-consumo.db', driver: sqlite3.Database });
 const browser = await puppeteer.launch();
 const page = await browser.newPage();
+const userAgent = (await browser.userAgent()).replace('Headless', '');
+await page.setUserAgent(userAgent);
 
 /* TotalPlay AJAX reply to 'consulta-consumo'.
  * NOTE ALL INTEGERS ARE SENT AS STRINGS (i.e., "1701" instead of 1701)
@@ -50,7 +52,7 @@ page.on('response', async (response) => {
 try {
     // sign in
     await page.setViewport({height: 1080, width: 1920});
-    await page.goto('https://www.mitotalplay.com.mx/');
+    await page.goto('https://www.mitotalplay.com.mx/', { waitUntil: 'networkidle0' });
     await page.type('#log-user', process.env.TOTALPLAY_USERNAME);
     await page.type('#log-pass', process.env.TOTALPLAY_PASSWORD);
     await page.click('#log-but-inises');
