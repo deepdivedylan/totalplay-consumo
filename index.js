@@ -23,7 +23,7 @@ const page = await browser.newPage();
     "notificacion": "0",        // "0" if not notified about data consumed
     "excedente": "0",           // "0" if not over data cap
     "consumo4TB": false,        // whether over 4 TB
-    "consumo1TB": false,        // whether over 1 TB
+    "consumo1TB": true,         // whether over 1 TB
     "whiteListConsumoTP": false // unknown
   }
 }
@@ -56,7 +56,7 @@ try {
     await page.click('#log-but-inises');
     await page.waitForNavigation();
 
-    //
+    // load "Paquetes" page and log out
     await page.goto('https://www.mitotalplay.com.mx/Paquetes', { waitUntil: 'networkidle0' });
     await page.click('#userName');
     await page.click('#logout');
